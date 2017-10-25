@@ -1,10 +1,12 @@
 
 #!/bin/bash
-
+#Add the PHP repository to Ubuntu
 sudo apt-add-repository -y ppa:ondrej/php
 
-sudo apt-get update
+#Get the latest updates
+sudo apt-get -y update
 
+#Install Apache, PHP and MySQL
 sudo apt-get -y install apache2
 
 sudo apt-get -y install php7.0
@@ -19,46 +21,66 @@ sudo apt-get -y install php7.0-mysql
 
 sudo apt-get -y install mysql-server
 
+#Enable Apache extensions
 sudo a2enmod rewrite
 
+sudo phpenmod pdo_mysql
+
+#Install Git and curl
 sudo apt-get -y install git
 
 sudo apt-get -y install curl
 
+#Donwload and install node.js
 sudo curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 sudo apt-get -y install -y nodejs
 
 sudo apt-get -y install -y build-essential
 
-sudo phpenmod pdo_mysql
-
+#Donwload and install Composer
 sudo curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
 
-read -s -p "Type the password you just entered (MySQL): " rootpasswd
+
+
+#Databse setup
+#Get the root password from the user
+read -s -p "Type the password you just entered in MySQL setup: " rootpasswd
+#Create database and name it userfrosting
 mysql -uroot -p${rootpasswd} -e "CREATE DATABASE userfrosting /*\!40100 DEFAULT CHARACTER SET utf8 */;"
-read -s -p "Type a user password (MySQL): " PASSWDDB
-mysql -uroot -p${rootpasswd} -e "CREATE USER 'userfrosting'@'localhost' IDENTIFIED BY '${PASSWDDB}';"
-mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON userfrosting.* TO 'userfrosting'@'localhost' IDENTIFIED BY '${PASSWDDB}';"
+#Ask user to choose password for the user:"userfrosting"
+read -s -p 'Choose a user password for MySQL user "userfrosting": ' userpasswd
+#Create user "userfrosting" and set password chosesn by the user
+mysql -uroot -p${rootpasswd} -e "CREATE USER 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
+#Give the user "userfrosting" all premissions <<== Need to give restricted premissions for security
+mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON userfrosting.* TO 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
+#Reload MySQL premissions
 mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
 
 
 
 
+#Clone the main userfrosting repository to directory "userfrosting"
 git clone https://github.com/userfrosting/UserFrosting.git userfrosting
 
+
+
+
+#Main setup
+#Gives bower necessary premissions to run without root
 sudo chown -R $(whoami) .config
 
-
-
+#Gets current directory
 path=$(pwd)
 
-
+#Appends the necessary config to the Apache conf file
 echo -e "<Directory ${path}/userfrosting/public/>\n Options Indexes FollowSymLinks\n AllowOverride All\n Require all granted\n </Directory>" | sudo tee -a /etc/apache2/apache2.conf
 
+#Finds the defualt directory path and replaces it with userfrosting
 sudo sed -i -e "s#/var/www/html#${path}/userfrosting/public/#g" /etc/apache2/sites-enabled/000-default.conf
 
+#Gives Apache write premissions to the necessary directories
 sudo  chgrp www-data ${path}/userfrosting/app/logs
 sudo  chmod g+rwxs ${path}/userfrosting/app/logs
 
@@ -68,10 +90,14 @@ chmod g+rwxs ${path}/userfrosting/app/cache
 sudo chgrp www-data ${path}/userfrosting/app/sessions
 sudo chmod g+rwxs ${path}/userfrosting/app/sessions
 
+#Change current directory to userfrosting
 cd ./userfrosting
 
+#Run composer and install PHP libaries
 sudo composer install
 
+#Run bakery to setup userfrosting
 php bakery bake
 
+#Restart the Apache servies when completed
 sudo service apache2 restart
