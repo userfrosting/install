@@ -122,16 +122,15 @@ cd .${UF_INSTALL_DIR}
 #Run composer and install PHP libaries
 sudo composer install
 
-#Run asset builder
-php bakery build-assets
-#Run migrations
-php bakery migrate
-
 #Bakery setup
 echo -e "${MYSQL_USER_HOST}\3306\${MYSQL_DATABASE_NAME}\${MYSQL_USER_NAME}\${MYSQL_USER_PASSWORD}\ \ \ " | php bakery setup
 
 echo -e "${UF_ROOT_USER_NAME}\${UF_ROOT_USER_EMAIL}\${UF_ROOT_FIRST_NAME}\${UF_ROOT_LAST_NAME}\${UF_ROOT_USER_PASSWORD}" | php bakery create-admin
 
+#Run asset builder
+php bakery build-assets
+#Run migrations
+php bakery migrate
 
 #Restart the Apache servies when completed
 sudo service apache2 restart
