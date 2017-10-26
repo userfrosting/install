@@ -78,13 +78,13 @@ sudo curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr
 
 #Databse setup
 #Create database and name it userfrosting
-mysql -uroot -p${rootpasswd} -e "CREATE DATABASE ${MYSQL_DATABASE_NAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE DATABASE ${MYSQL_DATABASE_NAME} /*\!40100 DEFAULT CHARACTER SET utf8 */;"
 #Create user "userfrosting" and set password chosesn by the user
-mysql -uroot -p${rootpasswd} -e "CREATE USER '${MYSQL_USER_NAME}'@'${MYSQL_USER_HOST}' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "CREATE USER '${MYSQL_USER_NAME}'@'${MYSQL_USER_HOST}' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
 #Give the user "userfrosting" all premissions
-mysql -uroot -p${rootpasswd} -e "GRANT ${MYSQL_USER_PRIVILEGES} ON ${MYSQL_DATABASE_NAME}.* TO '${MYSQL_USER_NAME}'@'${MYSQL_USER_HOST}' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "GRANT ${MYSQL_USER_PRIVILEGES} ON ${MYSQL_DATABASE_NAME}.* TO '${MYSQL_USER_NAME}'@'${MYSQL_USER_HOST}' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';"
 #Reload MySQL premissions
-mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
+mysql -uroot -p${MYSQL_ROOT_PASSWORD} -e "FLUSH PRIVILEGES;"
 
 
 
