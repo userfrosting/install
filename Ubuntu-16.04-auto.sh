@@ -117,7 +117,7 @@ sudo chgrp www-data ${UF_INSTALL_DIR}/app/sessions
 sudo chmod g+rwxs ${UF_INSTALL_DIR}/app/sessions
 
 #Change current directory to userfrosting
-cd ${UF_INSTALL_DIR}
+cd .${UF_INSTALL_DIR}
 
 #Run composer and install PHP libaries
 sudo composer install
