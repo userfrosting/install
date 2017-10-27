@@ -35,6 +35,7 @@ sudo tar -xzf node-v8.8.1-linux-armv6l.tar.gz
 node-v8.8.1-linux-armv6l/bin/node -v
 cd node-v8.8.1-linux-armv6l/
 sudo cp -R * /usr/local/
+cd ~
 
 
 #Donwload and install Composer
