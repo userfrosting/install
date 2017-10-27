@@ -16,7 +16,7 @@ sudo apt-get -y install php7.0-gd
 
 sudo apt-get -y install php7.0-mysql
 
-sudo apt-get -y install mysql-server
+sudo apt-get -y install mysql-server --fix-missing
 
 #Enable Apache extensions
 sudo a2enmod rewrite
