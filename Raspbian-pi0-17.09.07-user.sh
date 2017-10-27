@@ -40,6 +40,9 @@ cd ~
 
 #Donwload and install Composer
 sudo curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+sudo /sbin/mkswap /var/swap.1
+sudo /sbin/swapon /var/swap.1
 
 
 
@@ -48,15 +51,15 @@ sudo curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr
 #Get the root password from the user
 read -s -p "Type the password you just entered in MySQL setup: " rootpasswd
 #Create database and name it userfrosting
-mysql -uroot -p${rootpasswd} -e "CREATE DATABASE userfrosting /*\!40100 DEFAULT CHARACTER SET utf8 */;"
+sudo  mysql -uroot -p${rootpasswd} -e "CREATE DATABASE userfrosting /*\!40100 DEFAULT CHARACTER SET utf8 */;"
 #Ask user to choose password for the user:"userfrosting"
 read -s -p 'Choose a user password for MySQL user "userfrosting": ' userpasswd
 #Create user "userfrosting" and set password chosesn by the user
-mysql -uroot -p${rootpasswd} -e "CREATE USER 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
+sudo mysql -uroot -p${rootpasswd} -e "CREATE USER 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
 #Give the user "userfrosting" all premissions <<== Need to give restricted premissions for security
-mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON userfrosting.* TO 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
+sudo mysql -uroot -p${rootpasswd} -e "GRANT ALL PRIVILEGES ON userfrosting.* TO 'userfrosting'@'localhost' IDENTIFIED BY '${userpasswd}';"
 #Reload MySQL premissions
-mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
+sudo mysql -uroot -p${rootpasswd} -e "FLUSH PRIVILEGES;"
 
 
 
