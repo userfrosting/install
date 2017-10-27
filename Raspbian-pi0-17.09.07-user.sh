@@ -48,8 +48,18 @@ sudo /sbin/swapon /var/swap.1
 
 
 #Databse setup
-#Get the root password from the user
-read -s -p "Type the password you just entered in MySQL setup: " rootpasswd
+#Ask user to choose password for the root user
+read -s -p "Choose a root password for MySQL: " rootpasswd
+#Stop the MySQL service
+sudo service mysql stop
+#Create init file
+sudo touch /etc/mysql/mysql-init
+#Write commands to init file
+sudo echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${rootpasswd}');" /etc/mysql/mysql-init
+#Restart MySQL service
+sudo service mysql restart
+#Delete init file
+sudo rm /etc/mysql/mysql-init
 #Create database and name it userfrosting
 sudo  mysql -uroot -p${rootpasswd} -e "CREATE DATABASE userfrosting /*\!40100 DEFAULT CHARACTER SET utf8 */;"
 #Ask user to choose password for the user:"userfrosting"
