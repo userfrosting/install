@@ -1,8 +1,5 @@
 
 #!/bin/bash
-#Add the PHP repository to Ubuntu
-sudo apt-add-repository -y ppa:ondrej/php
-
 #Get the latest updates
 sudo apt-get -y update
 
@@ -38,7 +35,6 @@ sudo tar -xzf node-v8.8.1-linux-armv6l.tar.gz
 node-v8.8.1-linux-armv6l/bin/node -v
 cd node-v8.8.1-linux-armv6l/
 sudo cp -R * /usr/local/
-export PATH=$PATH:/usr/local/bin
 
 
 #Donwload and install Composer
