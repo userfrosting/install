@@ -48,12 +48,12 @@ sudo /sbin/swapon /var/swap.1
 
 
 #Databse setup
-#Ask user to choose password for the root user
-read -s -p "Choose a root password for MySQL: " rootpasswd
 #Stop the MySQL service
 sudo service mysql stop
 #Create init file
 sudo touch /etc/mysql/mysql-init
+#Ask user to choose password for the root user
+read -s -p "Choose a root password for MySQL: " rootpasswd
 #Write commands to init file
 sudo echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('${rootpasswd}');" /etc/mysql/mysql-init
 #Restart MySQL service
