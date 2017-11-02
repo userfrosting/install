@@ -30,7 +30,7 @@ sudo apt-get -y install curl
 
 #Donwload and install node.js
 cd ~
-wget https://nodejs.org/dist/latest-v8.x/node-v8.8.1-linux-armv6l.tar.gz
+wget https://nodejs.org/dist/latest-v8.x/node-v8.9.0-linux-armv6l.tar.gz
 sudo tar -xzf node-v8.8.1-linux-armv6l.tar.gz
 node-v8.8.1-linux-armv6l/bin/node -v
 cd node-v8.8.1-linux-armv6l/
